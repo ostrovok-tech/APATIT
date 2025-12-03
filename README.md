@@ -17,7 +17,7 @@ A Prometheus exporter for [Ping-Admin](https://ping-admin.com/) that collects mo
 ### Using Docker
 
 ```bash
-docker run -d \
+docker run --rm -d \
   --name ping-admin-exporter \
   -p 8080:8080 \
   -e API_KEY=your-api-key \
