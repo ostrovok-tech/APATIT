@@ -98,7 +98,7 @@ func newApp(cfg *config.Config) (*application, error) {
 	}
 
 	// Create API client
-	apiClient := client.New(cfg.APIKey, nil, cfg.RequestDelay, cfg.RequestRetries)
+	apiClient := client.New(cfg.APIKey, nil, cfg.RequestDelay, cfg.RequestRetries, cfg.MaxRequestsPerSecond)
 
 	// Register metrics, set ServiceInfo metric
 	exporter.RegisterMetrics()

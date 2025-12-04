@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Graceful shutdown handling with signal support
 - Request retry mechanism with configurable retry count
 - Randomized request delays to prevent API throttling
+- Rate limiting with configurable maximum requests per second (default: 2 requests/second)
 - Staleness detection and reporting for monitoring points
 - Support for English MP name translation
 - Docker Compose configuration for easy deployment

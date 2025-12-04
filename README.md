@@ -66,6 +66,7 @@ The exporter can be configured via command-line flags or environment variables.
 | `--api-update-delay` | `API_UPDATE_DELAY` | Ping-Admin API data update delay | `4m` |
 | `--api-data-time-step` | `API_DATA_TIME_STEP` | Time between API data points | `3m` |
 | `--max-allowed-staleness-steps` | `MAX_ALLOWED_STALENESS_STEPS` | Max staleness steps before marking MP as unavailable | `3` |
+| `--max-requests-per-second` | `MAX_REQUESTS_PER_SECOND` | Maximum number of API requests allowed per second | `2` |
 | `--request-delay` | `REQUEST_DELAY` | Minimum delay before API request (randomized) | `2s` |
 | `--request-retries` | `REQUEST_RETRIES` | Maximum number of retries for API requests | `3` |
 

@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"regexp"
+	"sync"
 	"time"
 
 	"github.com/sirupsen/logrus"
@@ -27,26 +28,84 @@ type Client struct {
 	endpoint       string
 	requestDelay   time.Duration
 	requestRetries int
+
+	// Rate limiting: configurable max requests per second
+	maxRequestsPerSecond int
+	rateLimitMu          sync.Mutex
+	lastRequestTimes     []time.Time // Track recent request times
 }
 
 // New creates a new API client entity.
-func New(apiKey string, httpClient *http.Client, requestDelay time.Duration, requestRetries int) *Client {
+func New(apiKey string, httpClient *http.Client, requestDelay time.Duration, requestRetries int, maxRequestsPerSecond int) *Client {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
-	return &Client{
-		httpClient:     httpClient,
-		apiKey:         apiKey,
-		endpoint:       defaultEndpoint,
-		requestDelay:   requestDelay,
-		requestRetries: requestRetries,
+	if maxRequestsPerSecond <= 0 {
+		maxRequestsPerSecond = 2
 	}
+	return &Client{
+		httpClient:           httpClient,
+		apiKey:               apiKey,
+		endpoint:             defaultEndpoint,
+		requestDelay:         requestDelay,
+		requestRetries:       requestRetries,
+		maxRequestsPerSecond: maxRequestsPerSecond,
+	}
+}
+
+// waitForRateLimit ensures we don't exceed maxRequestsPerSecond requests per second.
+// It waits if necessary before allowing the next request.
+// This method is thread-safe and can be called from multiple goroutines.
+func (c *Client) waitForRateLimit() {
+	c.rateLimitMu.Lock()
+	defer c.rateLimitMu.Unlock()
+
+	now := time.Now()
+	oneSecondAgo := now.Add(-time.Second)
+
+	// Remove request times older than 1 second
+	validRequests := make([]time.Time, 0, c.maxRequestsPerSecond)
+	for _, t := range c.lastRequestTimes {
+		if t.After(oneSecondAgo) {
+			validRequests = append(validRequests, t)
+		}
+	}
+	c.lastRequestTimes = validRequests
+
+	// If we have maxRequestsPerSecond requests in the last second, wait until the oldest one expires
+	if len(c.lastRequestTimes) >= c.maxRequestsPerSecond {
+		oldestRequest := c.lastRequestTimes[0]
+		// Wait 1.1 seconds instead of 1 second to add a small buffer and avoid exact 1 second API restriction
+		waitDuration := 1100*time.Millisecond - now.Sub(oldestRequest)
+		if waitDuration > 0 {
+			logrus.WithField("wait_seconds", waitDuration.Seconds()).
+				Debug("Rate limit: waiting before next API request")
+			// Sleep while holding the lock - this ensures other goroutines wait
+			// and see the updated state after we're done
+			time.Sleep(waitDuration)
+			now = time.Now() // Update now after waiting
+
+			// Recalculate valid requests after sleep (time has passed)
+			oneSecondAgo = now.Add(-time.Second)
+			validRequests = make([]time.Time, 0, 2)
+			for _, t := range c.lastRequestTimes {
+				if t.After(oneSecondAgo) {
+					validRequests = append(validRequests, t)
+				}
+			}
+			c.lastRequestTimes = validRequests
+		}
+	}
+	c.lastRequestTimes = append(c.lastRequestTimes, now)
 }
 
 // getAPI make a request to Ping-Admin API.
 // Request could be delayed to avoid "Server Unavailable" error.
 func (c *Client) getAPI(path string, result interface{}, delayed bool) error {
 	log := logrus.WithField("component", "api_client")
+
+	// Enforce rate limit: max 2 requests per second
+	c.waitForRateLimit()
 
 	req, err := http.NewRequest(http.MethodGet, path, nil)
 	if err != nil {
@@ -105,7 +164,6 @@ func (c *Client) getAPI(path string, result interface{}, delayed bool) error {
 	}
 
 	return nil
-
 }
 
 // GetTaskGraphStat get task statistics using sa=task_graph_stat request.

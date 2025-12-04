@@ -20,6 +20,7 @@ type Config struct {
 	MaxAllowedStalenessSteps int
 	RequestDelay             time.Duration
 	RequestRetries           int
+	MaxRequestsPerSecond     int
 	ListenAddress            string
 	LocationsFilePath        string
 	LogLevel                 string
@@ -38,6 +39,7 @@ func New() (*Config, error) {
 	flag.IntVar(&cfg.MaxAllowedStalenessSteps, "max-allowed-staleness-steps", envInt("MAX_ALLOWED_STALENESS_STEPS", 3), "Maximum allowed staleness steps")
 	flag.DurationVar(&cfg.RequestDelay, "request-delay", envDuration("REQUEST_DElAY", 2*time.Second), "Minimum delay before API request (will be set to random between this and doubled values)")
 	flag.IntVar(&cfg.RequestRetries, "request-retries", envInt("REQUEST_RETRIES", 3), "Maximum number of retries for API requests")
+	flag.IntVar(&cfg.MaxRequestsPerSecond, "max-requests-per-second", envInt("MAX_REQUESTS_PER_SECOND", 2), "Maximum number of API requests allowed per second")
 	flag.StringVar(&cfg.ListenAddress, "listen-address", envString("LISTEN_ADDRESS", ":8080"), "Address to listen on for HTTP requests")
 	flag.StringVar(&cfg.LocationsFilePath, "locations-file", envString("LOCATIONS_FILE", "locations.json"), "Path to the locations.json translation file")
 	flag.StringVar(&cfg.LogLevel, "log-level", envString("LOG_LEVEL", "info"), "Log level (e.g., debug, info, warn, error)")
