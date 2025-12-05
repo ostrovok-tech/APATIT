@@ -1,16 +1,16 @@
 package server
 
 import (
-	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/sirupsen/logrus"
 	"net/http"
 
-	"ping-admin-exporter/internal/cache"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/sirupsen/logrus"
+
+	"apatit/internal/cache"
 )
 
 // startServer runs HTTP-server.
 func StartServer(listenAddress string) {
-
 	// JSON stats endpoint
 	http.HandleFunc("/stats", statsHandler)
 
@@ -25,10 +25,13 @@ func StartServer(listenAddress string) {
 		}
 
 		_, _ = w.Write([]byte(`
-<html><head><title>Ping-Admin Exporter</title></head><body><h1>Ping-Admin Exporter</h1>
+<html><head><title>APATIT</title></head><body>
+<h1>APATIT</h1>
+<h2>Advanced Ping-Admin Task Indicators Transducer</h2>
 <p><a href='/metrics'>Metrics</a></p>
 <p><a href='/stats?type=task'>Tasks JSON</a></p>
-<p><a href='/stats?type=all'>All Tasks Info JSON</a></p></body></html>`))
+<p><a href='/stats?type=all'>All Tasks Info JSON</a></p>
+</body></html>`))
 	})
 
 	logrus.WithField("address", listenAddress).Info("Starting HTTP server")

@@ -10,8 +10,8 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
 
-	"ping-admin-exporter/internal/client"
-	"ping-admin-exporter/internal/translator"
+	"apatit/internal/client"
+	"apatit/internal/translator"
 )
 
 // Exporter collects metrics for a single task.

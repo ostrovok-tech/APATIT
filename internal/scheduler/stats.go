@@ -7,11 +7,11 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"ping-admin-exporter/internal/cache"
-	"ping-admin-exporter/internal/client"
-	"ping-admin-exporter/internal/config"
-	"ping-admin-exporter/internal/exporter"
-	"ping-admin-exporter/internal/utils"
+	"apatit/internal/cache"
+	"apatit/internal/client"
+	"apatit/internal/config"
+	"apatit/internal/exporter"
+	"apatit/internal/utils"
 )
 
 // runStatsScheduler starts a loop that periodically updates task stats and publish them

@@ -9,13 +9,13 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"ping-admin-exporter/internal/client"
-	"ping-admin-exporter/internal/config"
-	"ping-admin-exporter/internal/exporter"
-	"ping-admin-exporter/internal/log"
-	"ping-admin-exporter/internal/scheduler"
-	"ping-admin-exporter/internal/server"
-	"ping-admin-exporter/internal/translator"
+	"apatit/internal/client"
+	"apatit/internal/config"
+	"apatit/internal/exporter"
+	"apatit/internal/log"
+	"apatit/internal/scheduler"
+	"apatit/internal/server"
+	"apatit/internal/translator"
 )
 
 // createExporters creates and returns a list of exporters for the specified tasks.
@@ -102,7 +102,7 @@ func newApp(cfg *config.Config) (*application, error) {
 
 	// Register metrics, set ServiceInfo metric
 	exporter.RegisterMetrics()
-	exporter.EServiceInfo.Set(1)
+	exporter.AServiceInfo.Set(1)
 
 	// Create Exporters for each task
 	exporters, err := createExporters(apiClient, cfg)

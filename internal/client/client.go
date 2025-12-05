@@ -11,8 +11,8 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"ping-admin-exporter/internal/utils"
-	"ping-admin-exporter/internal/version"
+	"apatit/internal/utils"
+	"apatit/internal/version"
 )
 
 const (

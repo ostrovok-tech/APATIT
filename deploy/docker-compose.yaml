@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  ping-admin-exporter:
+  apatit:
     restart: unless-stopped
     build:
       context: ..
@@ -9,7 +9,7 @@ services:
       args:
         VERSION: "local-build"
 
-    image: ping-admin-exporter:local
+    image: apatit:local
 
     ports:
       - "8080:8080"
@@ -19,4 +19,4 @@ services:
 
 networks:
   default:
-    name: ping-admin-exporter-net
+    name: apatit-net

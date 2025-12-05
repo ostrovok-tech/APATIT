@@ -1,4 +1,4 @@
-module ping-admin-exporter
+module apatit
 
 go 1.21.0
 

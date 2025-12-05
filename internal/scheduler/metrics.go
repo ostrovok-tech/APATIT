@@ -7,9 +7,9 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
-	"ping-admin-exporter/internal/config"
-	"ping-admin-exporter/internal/exporter"
-	"ping-admin-exporter/internal/utils"
+	"apatit/internal/config"
+	"apatit/internal/exporter"
+	"apatit/internal/utils"
 )
 
 // runMetricsScheduler starts a loop that periodically updates metrics and clears old ones.

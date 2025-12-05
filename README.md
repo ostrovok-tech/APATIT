@@ -1,15 +1,16 @@
-# Ping-Admin Exporter
+# APATIT (Advanced Ping-Admin Task Indicators Transducer)
 
-A Prometheus exporter for [Ping-Admin](https://ping-admin.com/) that collects monitoring metrics from multiple tasks and exposes them in Prometheus format.
+APATIT is a set of exporters for the Website and Server Monitoring Service [Ping-Admin.com](https://ping-admin.com/?lang=en).
+APATIT collects monitoring metrics and task statistics, processes them, and publishes the results.
 
 ## Features
 
 - 🔄 **Automatic Metrics Collection**: Periodically fetches metrics from Ping-Admin API for multiple tasks
 - 📊 **Prometheus Integration**: Exposes metrics in standard Prometheus format at `/metrics`
-- 🌍 **Location Translation**: Supports translation of location names via `locations.json`
-- 🔁 **Automatic Cleanup**: Removes stale metrics when monitoring points are no longer available
-- 🚀 **Concurrent Processing**: Efficiently processes multiple tasks in parallel
 - 📈 **JSON Stats API**: Provides additional JSON endpoints for task statistics
+- 🌍 **Location Translation**: Supports translation of location names via `locations.json`
+- 🚀 **Concurrent Processing**: Efficiently processes multiple tasks in parallel
+- 🔁 **Automatic Cleanup**: Removes stale metrics when monitoring points are no longer available
 - 🐳 **Docker Support**: Ready-to-use Docker image
 
 ## Installation
@@ -18,29 +19,29 @@ A Prometheus exporter for [Ping-Admin](https://ping-admin.com/) that collects mo
 
 ```bash
 docker run --rm -d \
-  --name ping-admin-exporter \
+  --name apatit \
   -p 8080:8080 \
   -e API_KEY=your-api-key \
   -e TASK_IDS=1,2,3 \
-  ghcr.io/ostrovok-tech/ping-admin-exporter:latest
+  ghcr.io/ostrovok-tech/apatit:latest
 ```
 
 ### From Source
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/ostrovok-tech/ping-admin-exporter.git
-cd ping-admin-exporter
+git clone https://github.com/ostrovok-tech/apatit.git
+cd apatit
 ```
 
 2. Build the binary:
 ```bash
-go build -o ping-admin-exporter ./cmd/ping-admin-exporter
+go build -o apatit ./cmd/apatit
 ```
 
 3. Run the exporter:
 ```bash
-./ping-admin-exporter --api-key=your-api-key --task-ids=1,2,3
+./apatit --api-key=your-api-key --task-ids=1,2,3
 ```
 
 ## Configuration
@@ -73,7 +74,7 @@ The exporter can be configured via command-line flags or environment variables.
 ### Example Configuration
 
 ```bash
-./ping-admin-exporter \
+./apatit \
   --api-key=your-api-key \
   --task-ids=1,2,3 \
   --listen-address=:9090 \
@@ -88,7 +89,7 @@ export API_KEY=your-api-key
 export TASK_IDS=1,2,3
 export REFRESH_INTERVAL=5m
 export LOG_LEVEL=debug
-./ping-admin-exporter
+./apatit
 ```
 
 ## Usage
@@ -106,7 +107,7 @@ Add the following to your `prometheus.yml`:
 
 ```yaml
 scrape_configs:
-  - job_name: 'ping-admin-exporter'
+  - job_name: 'apatit'
     static_configs:
       - targets: ['localhost:8080']
 ```
@@ -141,9 +142,9 @@ All MP metrics include labels: `task_id`, `task_name`, `mp_id`, `mp_name`, `mp_i
 ## Project Structure
 
 ```
-ping-admin-exporter/
+apatit/
 ├── cmd/
-│   └── ping-admin-exporter/
+│   └── apatit/
 │       └── main.go              # Application entry point
 ├── internal/
 │   ├── cache/                   # Cache implementation
@@ -165,4 +166,4 @@ ping-admin-exporter/
 
 ## Support
 
-For issues and feature requests, please use the [GitHub Issues](https://github.com/ostrovok-tech/ping-admin-exporter/issues) page.
+For issues and feature requests, please use the [GitHub Issues](https://github.com/ostrovok-tech/apatit/issues) page.

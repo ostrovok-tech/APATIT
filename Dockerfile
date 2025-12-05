@@ -4,19 +4,19 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 ARG VERSION="v2.0.0"
-RUN go build -v -ldflags="-s -w -X 'ping-admin-exporter/internal/version.Version=${VERSION}'" -o /app/ping-admin-exporter ./cmd/ping-admin-exporter
+RUN go build -v -ldflags="-s -w -X 'apatit/internal/version.Version=${VERSION}'" -o /app/apatit ./cmd/apatit
 
 FROM alpine:3.20
 ARG VERSION="latest"
 
 RUN apk add --no-cache ca-certificates
 
-LABEL org.opencontainers.image.title="Ping-Admin Exporter"
-LABEL org.opencontainers.image.description="Prometheus Exporter for https://ping-admin.com/"
-LABEL org.opencontainers.image.source="https://github.com/ostrovok-tech/ping-admin-exporter"
+LABEL org.opencontainers.image.title="APATIT (Advanced Ping-Admin Tasks Indicators Transducer)"
+LABEL org.opencontainers.image.description="Transducer for Tasks Indicators from https://ping-admin.com/"
+LABEL org.opencontainers.image.source="https://github.com/ostrovok-tech/apatit"
 LABEL org.opencontainers.image.version="${VERSION}"
 
-COPY --from=build /app/ping-admin-exporter /usr/local/bin/ping-admin-exporter
+COPY --from=build /app/apatit /usr/local/bin/apatit
 COPY locations.json /app/locations.json
 WORKDIR /app
 
@@ -26,4 +26,4 @@ USER appuser
 EXPOSE 8080
 ENV LISTEN_ADDRESS=:8080
 
-ENTRYPOINT [ "ping-admin-exporter" ]
+ENTRYPOINT [ "apatit" ]

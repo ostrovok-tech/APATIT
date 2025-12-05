@@ -3,7 +3,7 @@ package exporter
 import (
 	"github.com/prometheus/client_golang/prometheus"
 
-	"ping-admin-exporter/internal/version"
+	"apatit/internal/version"
 )
 
 const (
@@ -24,15 +24,15 @@ var (
 	}
 )
 
-// Metrics starting with "E" are related to "Exporter"
-// Metrics starting with "MP" are related to "Monitoring Point"
+// Metrics starts with "A" are related to "APATIT" itself
+// Metrics starts with "E" are related to "Exporter"
+// Metrics starts with "MP" are related to "Monitoring Point"
 var (
-	EServiceInfo = prometheus.NewGauge(
+	AServiceInfo = prometheus.NewGauge(
 		prometheus.GaugeOpts{
-			Namespace: namespace,
-			Subsystem: subsystemExporter,
+			Namespace: "apatit",
 			Name:      "service_info",
-			Help:      "Information about the Ping-Admin exporter service.",
+			Help:      "Information about the APATIT service.",
 			ConstLabels: prometheus.Labels{
 				"language": version.Language,
 				"name":     version.Name,
@@ -185,7 +185,7 @@ var (
 
 func RegisterMetrics() {
 	prometheus.MustRegister(
-		EServiceInfo,
+		AServiceInfo,
 		ERefreshIntervalSeconds,
 		EMaxAllowedStalenessSteps,
 		ERefreshDurationSeconds,
