@@ -70,7 +70,10 @@ func (e *Exporter) UpdateAllTasksInfo() ([]*client.TaskInfo, error) {
 
 	allTasks, err := e.apiClient.GetAllTasks()
 	if err != nil {
-		EErrorsTotal.WithLabelValues(strconv.Itoa(e.taskInfo.ID), e.taskInfo.ServiceName).Inc()
+		EErrorsTotal.WithLabelValues(
+			"api_client", "get_all_tasks",
+			strconv.Itoa(e.taskInfo.ID),
+			e.taskInfo.ServiceName).Inc()
 		return nil, fmt.Errorf("error getting all tasks info: %w", err)
 	}
 
@@ -85,11 +88,15 @@ func (e *Exporter) UpdateTaskStats() (*client.TaskStatEntry, error) {
 	// Get and process task stats
 	taskStatResults, err := e.apiClient.GetTaskStat(e.Config.TaskID)
 	if err != nil {
-		EErrorsTotal.WithLabelValues(strconv.Itoa(e.taskInfo.ID), e.taskInfo.ServiceName).Inc()
+		EErrorsTotal.WithLabelValues(
+			"api_client", "get_task_stat",
+			strconv.Itoa(e.taskInfo.ID),
+			e.taskInfo.ServiceName).Inc()
 		return nil, fmt.Errorf("failed to get task stat: %w", err)
 	}
 
 	e.processTaskStatResults(taskStatResults)
+	ELoopsTotal.WithLabelValues("stats").Inc()
 
 	return taskStatResults, nil
 }
@@ -103,7 +110,7 @@ func (e *Exporter) RefreshMetrics() ([]prometheus.Labels, error) {
 	// Updating the exporter's metrics
 	defer func() {
 		duration := time.Since(startTime).Seconds()
-		ELoopsTotal.WithLabelValues(strconv.Itoa(e.taskInfo.ID), e.taskInfo.ServiceName).Inc()
+		ELoopsTotal.WithLabelValues("metrics").Inc()
 		ERefreshDurationSeconds.WithLabelValues(strconv.Itoa(e.taskInfo.ID), e.taskInfo.ServiceName).Set(duration)
 		e.log.WithField("duration_s", duration).Info("Refresh finished")
 	}()
@@ -111,12 +118,20 @@ func (e *Exporter) RefreshMetrics() ([]prometheus.Labels, error) {
 	// Get and process task graph stats (metrics)
 	taskStatGraphResults, err := e.apiClient.GetTaskGraphStat(e.Config.TaskID)
 	if err != nil {
-		EErrorsTotal.WithLabelValues(strconv.Itoa(e.taskInfo.ID), e.taskInfo.ServiceName).Inc()
+		EErrorsTotal.WithLabelValues(
+			"api_client",
+			"get_task_graph_stat",
+			strconv.Itoa(e.taskInfo.ID),
+			e.taskInfo.ServiceName).Inc()
 		return nil, fmt.Errorf("failed to get task graph stat: %w", err)
 	}
 
 	if len(taskStatGraphResults) == 0 {
-		EErrorsTotal.WithLabelValues(strconv.Itoa(e.taskInfo.ID), e.taskInfo.ServiceName).Inc()
+		EErrorsTotal.WithLabelValues(
+			"api_client",
+			"get_task_graph_stat",
+			strconv.Itoa(e.taskInfo.ID),
+			e.taskInfo.ServiceName).Inc()
 		e.log.Error("No MP data from API.")
 	} else {
 		e.log.Debugf("Received %d data items from API", len(taskStatGraphResults))
@@ -124,7 +139,10 @@ func (e *Exporter) RefreshMetrics() ([]prometheus.Labels, error) {
 
 	mpsInfo, err := e.apiClient.GetMPs()
 	if err != nil {
-		EErrorsTotal.WithLabelValues(strconv.Itoa(e.taskInfo.ID), e.taskInfo.ServiceName).Inc()
+		EErrorsTotal.WithLabelValues(
+			"api_client", "get_mps",
+			strconv.Itoa(e.taskInfo.ID),
+			e.taskInfo.ServiceName).Inc()
 		return nil, fmt.Errorf("failed to get monitoring points info: %w", err)
 	}
 
@@ -139,7 +157,6 @@ func (e *Exporter) RefreshMetrics() ([]prometheus.Labels, error) {
 		}
 		// check monitoring point status and set it as ZERO if it was incorrect
 		if item.Status > 1 || item.Status < 0 {
-			EErrorsTotal.WithLabelValues(strconv.Itoa(e.taskInfo.ID), e.taskInfo.ServiceName).Inc()
 			e.log.WithFields(
 				logrus.Fields{"mp_id": item.ID, "mp_name": item.Name}).Errorf("incorrect monitoring points status: %d", item.Status)
 			item.Status = 0
