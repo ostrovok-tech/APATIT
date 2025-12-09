@@ -1,0 +1,554 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 2466,
+    "links": [],
+    "panels": [
+      {
+        "datasource": {
+          "type": "yesoreyeram-infinity-datasource",
+          "uid": "${datasource}"
+        },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto",
+                "wrapText": false
+              },
+              "filterable": false,
+              "inspect": true
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "name"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 293
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "ID"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 69
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "STATUS"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 200
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "BLOCKING STATUS"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 167
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "VIRUS STATUS"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 206
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "NAME"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 289
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byRegexp",
+                "options": "/.*STATUS/"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "applyToRow": false,
+                    "type": "color-background"
+                  }
+                },
+                {
+                  "id": "mappings",
+                  "value": [
+                    {
+                      "options": {
+                        "0": {
+                          "color": "red",
+                          "index": 1,
+                          "text": "PROBLEM"
+                        },
+                        "1": {
+                          "color": "green",
+                          "index": 0,
+                          "text": "OK"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "URL"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 1081
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "BLACKLIST STATUS"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 209
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 2,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": [
+            {
+              "desc": false,
+              "displayName": "ID"
+            }
+          ]
+        },
+        "pluginVersion": "12.1.1",
+        "targets": [
+          {
+            "columns": [],
+            "datasource": {
+              "type": "yesoreyeram-infinity-datasource",
+              "uid": "${datasource}"
+            },
+            "filters": [],
+            "format": "table",
+            "global_query_id": "",
+            "parser": "backend",
+            "refId": "A",
+            "root_selector": "",
+            "source": "url",
+            "type": "json",
+            "url": "",
+            "url_options": {
+              "data": "",
+              "method": "GET",
+              "params": [
+                {
+                  "key": "type",
+                  "value": "all"
+                }
+              ]
+            }
+          }
+        ],
+        "title": "All Tasks Status",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "EnabledStatus": true,
+                "Timestamp": true,
+                "last_data": true,
+                "log_data": true,
+                "log_status": false,
+                "period": true,
+                "period_error": true,
+                "rk": true,
+                "rk_ip": true,
+                "rk_log_data": true,
+                "rrd": true,
+                "rss": true,
+                "sb": true,
+                "sb_log_data": true,
+                "status": true,
+                "tasks_ims_icq_list": true,
+                "tasks_ims_jabber_list": true,
+                "tasks_ims_skype_list": true,
+                "tasks_ims_telegram_list": true,
+                "tip": true,
+                "uptime_nw": true,
+                "uptime_w": true,
+                "uveddva": true
+              },
+              "includeByName": {},
+              "indexByName": {
+                "BlackListStatus": 3,
+                "EnabledStatus": 6,
+                "ID": 0,
+                "ServiceName": 1,
+                "TaskStatus": 2,
+                "URL": 5,
+                "VirusStatus": 4
+              },
+              "renameByName": {
+                "BlackListStatus": "BLACKLIST STATUS",
+                "EnabledStatus": "Enabled",
+                "ID": "",
+                "ServiceName": "NAME",
+                "TaskStatus": "STATUS",
+                "URL": "URL",
+                "VirusStatus": "VIRUS STATUS",
+                "log_status": "STATUS",
+                "name": "URL",
+                "nazv": "NAME",
+                "rk_log_status": "BLACKLIST STATUS",
+                "sb_log_status": "VIRUS STATUS",
+                "status": "",
+                "tid": "ID"
+              }
+            }
+          }
+        ],
+        "transparent": true,
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "yesoreyeram-infinity-datasource",
+          "uid": "${datasource}"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto",
+                "wrapText": true
+              },
+              "filterable": true,
+              "inspect": true
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Description"
+              },
+              "properties": []
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "STATUS"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 138
+                },
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "type": "color-background"
+                  }
+                },
+                {
+                  "id": "mappings",
+                  "value": [
+                    {
+                      "options": {
+                        "0": {
+                          "color": "semi-dark-red",
+                          "index": 1,
+                          "text": "ERROR"
+                        },
+                        "1": {
+                          "color": "semi-dark-green",
+                          "index": 0,
+                          "text": "RESTORED"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "TIMESTAMP (UTC)"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 200
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "LOCATION"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 265
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 16,
+          "w": 24,
+          "x": 0,
+          "y": 10
+        },
+        "id": 1,
+        "options": {
+          "cellHeight": "lg",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "12.1.1",
+        "targets": [
+          {
+            "columns": [],
+            "datasource": {
+              "type": "yesoreyeram-infinity-datasource",
+              "uid": "${datasource}"
+            },
+            "filterExpression": "",
+            "filters": [],
+            "format": "table",
+            "global_query_id": "",
+            "parser": "backend",
+            "refId": "A",
+            "root_selector": "$[TaskName='${task_name}'].TaskLogs",
+            "source": "url",
+            "type": "json",
+            "url": "",
+            "url_options": {
+              "data": "",
+              "method": "GET",
+              "params": [
+                {
+                  "key": "type",
+                  "value": "task"
+                }
+              ]
+            }
+          }
+        ],
+        "title": "Specified Task Events",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "MPID": true
+              },
+              "includeByName": {},
+              "indexByName": {
+                "Data": 0,
+                "Description": 3,
+                "MPID": 5,
+                "MPName": 2,
+                "Status": 1,
+                "Traceroute": 4
+              },
+              "renameByName": {
+                "Data": "TIMESTAMP (UTC)",
+                "Description": "DESCRIPTION",
+                "MPID": "",
+                "MPName": "LOCATION",
+                "Status": "STATUS",
+                "Traceroute": "TRACEROUTE"
+              }
+            }
+          }
+        ],
+        "transparent": true,
+        "type": "table"
+      }
+    ],
+    "preload": false,
+    "schemaVersion": 41,
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "text": "ping-admin-exporter",
+            "value": "ff56j2xsn6pz4e"
+          },
+          "name": "datasource",
+          "options": [],
+          "query": "yesoreyeram-infinity-datasource",
+          "refresh": 1,
+          "regex": "",
+          "type": "datasource"
+        },
+        {
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "definition": "label_values(apatit_exporter_refresh_duration_seconds,task_name)",
+          "label": "Task Name",
+          "name": "task_name",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(apatit_exporter_loops_total,task_name)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "type": "query"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ]
+    },
+    "timezone": "browser",
+    "title": "Ping-Admin | Tasks Status",
+    "uid": "90df5e88-2493-4b47-a1b0-6289d3fb3d1f",
+    "version": 1
+  }
