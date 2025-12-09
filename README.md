@@ -1,4 +1,8 @@
-# APATIT (Advanced Ping-Admin Task Indicators Transducer)
+<div align="center">
+
+## APATIT: Advanced Ping-Admin Task Indicators Transducer
+
+</div>
 
 APATIT is a set of exporters for the Website and Server Monitoring Service [Ping-Admin.com](https://ping-admin.com/?lang=en).
 APATIT collects monitoring metrics and task statistics, processes them, and publishes the results.
@@ -116,28 +120,31 @@ scrape_configs:
 
 The exporter exposes the following Prometheus metrics:
 
+### Service Metrics
+
+- `apatit_service_info` - Information about the APATIT service (version, name, owner)
+
 ### Exporter Metrics
 
-- `ping_admin_exporter_service_info` - Information about the exporter service (version, name, owner)
-- `ping_admin_exporter_refresh_interval_seconds` - Configured refresh interval
-- `ping_admin_exporter_max_allowed_staleness_steps` - Configured staleness threshold
-- `ping_admin_exporter_refresh_duration_seconds{task_id, task_name}` - Duration of last refresh cycle
-- `ping_admin_exporter_loops_total{task_id, task_name}` - Total number of refresh loops
-- `ping_admin_exporter_errors_total{task_id, task_name}` - Total number of errors
+- `apatit_exporter_refresh_interval_seconds` - Configured refresh interval
+- `apatit_exporter_max_allowed_staleness_steps` - Configured staleness threshold
+- `apatit_exporter_refresh_duration_seconds{task_id, task_name}` - Duration of last refresh cycle
+- `apatit_exporter_loops_total{exporter_type}` - Total number of refresh loops for each exporter type
+- `apatit_exporter_errors_total{error_module, error_type, task_id, task_name}` - Total number of errors
 
 ### Monitoring Point Metrics
 
 All MP metrics include labels: `task_id`, `task_name`, `mp_id`, `mp_name`, `mp_ip`, `mp_gps`
 
-- `ping_admin_mp_status` - Status of monitoring point (1 = up, 0 = down/stale)
-- `ping_admin_mp_connect_seconds` - Connection establishment time
-- `ping_admin_mp_dns_lookup_seconds` - DNS lookup time
-- `ping_admin_mp_server_processing_seconds` - Server processing time
-- `ping_admin_mp_total_duration_seconds` - Total request duration
-- `ping_admin_mp_speed_bytes_per_second` - Download speed
-- `ping_admin_mp_last_success_timestamp_seconds` - Timestamp of last successful data point
-- `ping_admin_mp_last_success_delta_seconds` - Time since last successful data point
-- `ping_admin_mp_data_staleness_steps` - Number of missed API data steps (0 = fresh)
+- `apatit_mp_status` - Status of monitoring point (1 = up, 0 = down/stale)
+- `apatit_mp_connect_seconds` - Connection establishment time
+- `apatit_mp_dns_lookup_seconds` - DNS lookup time
+- `apatit_mp_server_processing_seconds` - Server processing time
+- `apatit_mp_total_duration_seconds` - Total request duration
+- `apatit_mp_speed_bytes_per_second` - Download speed
+- `apatit_mp_last_success_timestamp_seconds` - Timestamp of last successful data point
+- `apatit_mp_last_success_delta_seconds` - Time since last successful data point
+- `apatit_mp_data_staleness_steps` - Number of missed API data steps (0 = fresh)
 
 ## Project Structure
 
@@ -150,7 +157,7 @@ apatit/
 │   ├── cache/                   # Cache implementation
 │   ├── client/                  # Ping-Admin API client
 │   ├── config/                  # Configuration management
-│   ├── exporter/                # Metrics exporter logic
+│   ├── exporter/                # Metrics and stats exporters logic
 │   ├── log/                     # Logging setup
 │   ├── scheduler/               # Metrics and stats schedulers
 │   ├── server/                  # HTTP server
@@ -159,7 +166,7 @@ apatit/
 │   └── version/                 # Version information
 ├── deploy/
 │   └── docker-compose.yaml      # Docker Compose configuration
-├── Dockerfile                    # Container image definition
+├── Dockerfile                   # Container image definition
 ├── locations.json               # Location translation mappings
 └── go.mod                       # Go module definition
 ```
