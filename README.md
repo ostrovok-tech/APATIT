@@ -1,11 +1,24 @@
 <div align="center">
 
-## APATIT: Advanced Ping-Admin Task Indicators Transducer
+# APATIT
+## Advanced Ping-Admin Task Indicators Transducer
 
 </div>
 
-APATIT is a set of exporters for the Website and Server Monitoring Service [Ping-Admin.com](https://ping-admin.com/?lang=en).
-APATIT collects monitoring metrics and task statistics, processes them, and publishes the results.
+<div
+style="text-align: center;">
+  <img src="branding/banner.png" style="width: 90%; display: block; margin: 0 auto;">
+
+</div>
+
+---
+
+<div
+style="text-align: justify">
+
+## About
+
+**APATIT** is a set of exporters for the Website and Server Monitoring Service [Ping-Admin.com](https://ping-admin.com/?lang=en). **APATIT** collects, processes and publishes the tasks monitoring metrics and statistics.
 
 ## Features
 
@@ -174,3 +187,5 @@ apatit/
 ## Support
 
 For issues and feature requests, please use the [GitHub Issues](https://github.com/ostrovok-tech/apatit/issues) page.
+
+</div>
