@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	namespace         = "ping_admin"
+	namespace         = "apatit"
 	subsystemExporter = "exporter"
 	subsystemMP       = "mp"
 )
@@ -30,7 +30,7 @@ var (
 var (
 	AServiceInfo = prometheus.NewGauge(
 		prometheus.GaugeOpts{
-			Namespace: "apatit",
+			Namespace: namespace,
 			Name:      "service_info",
 			Help:      "Information about the APATIT service.",
 			ConstLabels: prometheus.Labels{
@@ -57,7 +57,7 @@ var (
 			Subsystem: subsystemExporter,
 			Name:      "max_allowed_staleness_steps",
 			Help: "Configured staleness threshold in steps. " +
-				"If `ping_admin_mp_data_staleness_steps` exceeds this value the MP " +
+				"If `apatit_mp_data_staleness_steps` exceeds this value the MP " +
 				"is considered potentially unavailable.",
 		},
 	)
@@ -69,7 +69,7 @@ var (
 			Name:      "refresh_duration_seconds",
 			Help:      "The duration of the last metrics refresh cycle for a specific task.",
 		},
-		[]string{"task_id", "task_name"},
+		[]string{LabelTaskID, LabelTaskName},
 	)
 
 	ELoopsTotal = prometheus.NewCounterVec(
@@ -79,7 +79,7 @@ var (
 			Name:      "loops_total",
 			Help:      "Total number of refresh loops started for a specific task.",
 		},
-		[]string{"task_id", "task_name"},
+		[]string{LabelExporterType},
 	)
 
 	EErrorsTotal = prometheus.NewCounterVec(
@@ -89,7 +89,7 @@ var (
 			Name:      "errors_total",
 			Help:      "Total number of errors during metrics refresh for a specific task.",
 		},
-		[]string{"task_id", "task_name"},
+		[]string{LabelErrorModule, LabelErrorType, LabelTaskID, LabelTaskName},
 	)
 
 	MPStatus = prometheus.NewGaugeVec(
