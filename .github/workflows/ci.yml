@@ -82,7 +82,9 @@ jobs:
       - name: Create GitHub Release and Upload Binary
         uses: softprops/action-gh-release@v1
         with:
-          files: apatit-linux-amd64
+          files: |
+            apatit-linux-amd64
+            locations.json
           generate_release_notes: true
           draft: false
           prerelease: ${{ contains(github.ref, '-') }}
