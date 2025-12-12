@@ -7,7 +7,7 @@
 
 <div
 style="text-align: center;">
-  <img src="branding/banner.png" style="width: 90%; display: block; margin: 0 auto;">
+  <img src="branding/banner.png" style="width: 100%; display: block; margin: 0 auto;">
 
 </div>
 
@@ -150,6 +150,7 @@ The exporter exposes the following Prometheus metrics:
 All MP metrics include labels: `task_id`, `task_name`, `mp_id`, `mp_name`, `mp_ip`, `mp_gps`
 
 - `apatit_mp_status` - Status of monitoring point (1 = up, 0 = down/stale)
+- `apatit_mp_data_status` - Status of the data for the monitoring point (1 = has data, 0 = no data)
 - `apatit_mp_connect_seconds` - Connection establishment time
 - `apatit_mp_dns_lookup_seconds` - DNS lookup time
 - `apatit_mp_server_processing_seconds` - Server processing time
