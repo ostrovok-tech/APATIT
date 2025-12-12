@@ -1,0 +1,16 @@
+apiVersion: v2
+name: apatit
+description: Set of exporters for https://ping-admin.com/
+keywords:
+  - exporter
+  - prometheus
+  - ping-admin
+sources:
+  - https://github.com/ostrovok-tech/apatit
+  - https://ping-admin.com/
+maintainers:
+  - name: Ostrovok! Tech
+    url: https://github.com/ostrovok-tech
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
