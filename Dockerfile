@@ -3,7 +3,7 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
-ARG VERSION="v2.0.0"
+ARG VERSION="v1.0.0"
 RUN go build -v -ldflags="-s -w -X 'apatit/internal/version.Version=${VERSION}'" -o /app/apatit ./cmd/apatit
 
 FROM alpine:3.20
