@@ -19,7 +19,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": 3345,
+  "id": 2513,
   "links": [],
   "panels": [
     {
@@ -40,6 +40,7 @@
         "type": "prometheus",
         "uid": "${datasource}"
       },
+      "description": "Number of Monitoring Points with actual information.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -377,6 +378,7 @@
         "type": "prometheus",
         "uid": "${datasource}"
       },
+      "description": "Temporarily unavailable Monitoring Points according to Ping-Admin API.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -384,6 +386,7 @@
             "mode": "fixed"
           },
           "mappings": [],
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -432,9 +435,11 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
+          "exemplar": false,
           "expr": "count by (task_name) (apatit_mp_status{task_name=\"$task_name\"} == 0)",
+          "instant": true,
           "legendFormat": "__auto",
-          "range": true,
+          "range": false,
           "refId": "A"
         }
       ],
@@ -446,6 +451,7 @@
         "type": "prometheus",
         "uid": "${datasource}"
       },
+      "description": "Monitoring Points with no data according to Ping-Admin API.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -453,6 +459,7 @@
             "mode": "fixed"
           },
           "mappings": [],
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -501,9 +508,11 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
+          "exemplar": false,
           "expr": "(count by (task_name) (apatit_mp_data_status{task_name=\"$task_name\"} == 0))",
+          "instant": true,
           "legendFormat": "__auto",
-          "range": true,
+          "range": false,
           "refId": "A"
         }
       ],
@@ -544,6 +553,7 @@
               "type": "value"
             }
           ],
+          "noValue": "No problems",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -651,6 +661,7 @@
           "fieldMinMax": false,
           "mappings": [],
           "min": 0,
+          "noValue": "No problems",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -784,7 +795,7 @@
             "h": 17,
             "w": 12,
             "x": 0,
-            "y": 180
+            "y": 32
           },
           "id": 9,
           "options": {
@@ -973,7 +984,7 @@
             "h": 17,
             "w": 12,
             "x": 12,
-            "y": 180
+            "y": 32
           },
           "id": 11,
           "options": {
@@ -1181,7 +1192,7 @@
             "h": 5,
             "w": 12,
             "x": 0,
-            "y": 305
+            "y": 437
           },
           "id": 16,
           "options": {
@@ -1285,7 +1296,7 @@
             "h": 5,
             "w": 12,
             "x": 12,
-            "y": 305
+            "y": 437
           },
           "id": 17,
           "options": {
@@ -1551,7 +1562,7 @@
           "placement": "right",
           "showLegend": true,
           "sortBy": "Name",
-          "sortDesc": false
+          "sortDesc": true
         },
         "tooltip": {
           "hideZeros": false,
@@ -2007,12 +2018,98 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "Monitoring Points with no data according to Ping-Admin API.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-blue",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "fillOpacity": 70,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "semi-dark-red",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 69
+      },
+      "id": 30,
+      "options": {
+        "alignValue": "left",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "mergeValues": true,
+        "perPage": 20,
+        "rowHeight": 0.9,
+        "showValue": "never",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum by (mp_name) (apatit_mp_data_status{task_name=\"$task_name\"} == 0)",
+          "format": "time_series",
+          "instant": false,
+          "legendFormat": "{{mp_name}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Lack of Data",
+      "type": "state-timeline"
+    },
+    {
       "collapsed": true,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 69
+        "y": 76
       },
       "id": 12,
       "panels": [
@@ -2021,7 +2118,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "description": "Monitoring Points with no data according to Ping-Admin API.",
+          "description": "Temporarily unavailable Monitoring Points according to Ping-Admin API.",
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -2062,7 +2159,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 106
+            "y": 192
           },
           "id": 26,
           "options": {
@@ -2167,7 +2264,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 113
+            "y": 199
           },
           "id": 23,
           "options": {
@@ -2265,7 +2362,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 121
+            "y": 207
           },
           "id": 6,
           "options": {
@@ -2370,7 +2467,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 128
+            "y": 214
           },
           "id": 1,
           "options": {
@@ -2400,7 +2497,7 @@
               "exemplar": false,
               "expr": "sum by (mp_name) (apatit_mp_status{mp_name=~\"$location_name\", task_name=\"$task_name\"})",
               "instant": false,
-              "legendFormat": "{{tm_name}}",
+              "legendFormat": "__auto",
               "range": true,
               "refId": "A"
             }
@@ -2474,7 +2571,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 135
+            "y": 221
           },
           "id": 25,
           "options": {
@@ -2555,8 +2652,8 @@
       {
         "allowCustomValue": false,
         "current": {
-          "text": "VM Prometheus",
-          "value": "PD96A447B92CB9D03"
+          "text": "VictoriaMetrics",
+          "value": "vbYsCp3nz"
         },
         "name": "datasource",
         "options": [],
@@ -2710,5 +2807,5 @@
   "timezone": "",
   "title": "Ping-Admin | World Wide Sites Monitoring",
   "uid": "de4pre2zlmwowa",
-  "version": 2
+  "version": 4
 }
