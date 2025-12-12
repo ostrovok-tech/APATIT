@@ -96,10 +96,20 @@ var (
 		prometheus.GaugeOpts{
 			Namespace: namespace,
 			Subsystem: subsystemMP,
-			Name:      "status",
+			Name:      "mp_status",
 			Help:      "Status of the monitoring point (1 = up/processed, 0 = stale/down).",
 		},
 		mpLabels,
+	)
+
+	MPDataStatus = prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Namespace: namespace,
+			Subsystem: subsystemMP,
+			Name:      "data_status",
+			Help:      "Status of the data for the monitoring point (1 = has data, 0 = no data).",
+		},
+		[]string{LabelTaskID, LabelTaskName, LabelMPID, LabelMPName},
 	)
 
 	MPConnectSeconds = prometheus.NewGaugeVec(
@@ -192,6 +202,7 @@ func RegisterMetrics() {
 		ELoopsTotal,
 		EErrorsTotal,
 		MPStatus,
+		MPDataStatus,
 		MPConnectSeconds,
 		MPDNSLookupSeconds,
 		MPServerProcessingSeconds,
@@ -206,6 +217,7 @@ func RegisterMetrics() {
 // DeleteSeries deletes "Monitoring Point" related metrics
 func DeleteSeries(labels prometheus.Labels) {
 	MPStatus.Delete(labels)
+	MPDataStatus.Delete(labels)
 	MPConnectSeconds.Delete(labels)
 	MPDNSLookupSeconds.Delete(labels)
 	MPServerProcessingSeconds.Delete(labels)

@@ -158,7 +158,11 @@ func (e *Exporter) RefreshMetrics() ([]prometheus.Labels, error) {
 		// check monitoring point status and set it as ZERO if it was incorrect
 		if item.Status > 1 || item.Status < 0 {
 			e.log.WithFields(
-				logrus.Fields{"mp_id": item.ID, "mp_name": item.Name}).Errorf("incorrect monitoring points status: %d", item.Status)
+				logrus.Fields{
+					"mp_id": item.ID, 
+					"mp_name": item.Name,
+					"status": item.Status,
+				}).Errorf("incorrect monitoring points status: %d", item.Status)
 			item.Status = 0
 		}
 
@@ -186,8 +190,21 @@ func (e *Exporter) processTaskStatResults(taskStatResults *client.TaskStatEntry)
 // processTaskStatGraphResultItem processes one record (monitoring point) and updates metrics.
 func (e *Exporter) processTaskStatGraphResultItem(item *client.MonitoringPointEntry, refreshStartTime time.Time) []prometheus.Labels {
 	if len(item.Result) == 0 {
+		locationName := item.Name
+		if e.Config.EngMPNames {
+			locationName = translator.GetEngLocation(item.Name)
+		}
+		MPDataStatus.WithLabelValues(
+			strconv.Itoa(e.taskInfo.ID), 
+			e.taskInfo.ServiceName,
+			item.ID,
+			locationName,
+			).Set(0)
+
 		e.log.WithFields(
-			logrus.Fields{"mp_id": item.ID, "mp_name": item.Name}).Warn("No results found for MP")
+			logrus.Fields{
+				"mp_id": item.ID, 
+				"mp_name": item.Name}).Warn("No results found for MP")
 		return nil
 	}
 
@@ -198,6 +215,14 @@ func (e *Exporter) processTaskStatGraphResultItem(item *client.MonitoringPointEn
 		e.updateMetrics(res, labels, item.Status, refreshStartTime)
 		processedLabels = append(processedLabels, labels)
 	}
+
+	MPDataStatus.WithLabelValues(
+		strconv.Itoa(e.taskInfo.ID), 
+		e.taskInfo.ServiceName,
+		item.ID,
+		processedLabels[0][LabelMPName],
+		).Set(1)
+
 	return processedLabels
 }
 
