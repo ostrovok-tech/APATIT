@@ -96,7 +96,7 @@ var (
 		prometheus.GaugeOpts{
 			Namespace: namespace,
 			Subsystem: subsystemMP,
-			Name:      "mp_status",
+			Name:      "status",
 			Help:      "Status of the monitoring point (1 = up/processed, 0 = stale/down).",
 		},
 		mpLabels,
