@@ -37,7 +37,7 @@ func New() (*Config, error) {
 	flag.DurationVar(&cfg.ApiDataTimeStep, "api-data-time-step", envDuration("API_DATA_TIME_STEP", 3*time.Minute), "Fixed Ping-Admin API time between data points")
 	flag.DurationVar(&cfg.RefreshInterval, "refresh-interval", envDuration("REFRESH_INTERVAL", 3*time.Minute), "Exporter's refresh interval")
 	flag.IntVar(&cfg.MaxAllowedStalenessSteps, "max-allowed-staleness-steps", envInt("MAX_ALLOWED_STALENESS_STEPS", 3), "Maximum allowed staleness steps")
-	flag.DurationVar(&cfg.RequestDelay, "request-delay", envDuration("REQUEST_DElAY", 2*time.Second), "Minimum delay before API request (will be set to random between this and doubled values)")
+	flag.DurationVar(&cfg.RequestDelay, "request-delay", envDuration("REQUEST_DELAY", 3*time.Second), "Minimum delay before API request (will be set to random between this and doubled values)")
 	flag.IntVar(&cfg.RequestRetries, "request-retries", envInt("REQUEST_RETRIES", 3), "Maximum number of retries for API requests")
 	flag.IntVar(&cfg.MaxRequestsPerSecond, "max-requests-per-second", envInt("MAX_REQUESTS_PER_SECOND", 2), "Maximum number of API requests allowed per second")
 	flag.StringVar(&cfg.ListenAddress, "listen-address", envString("LISTEN_ADDRESS", ":8080"), "Address to listen on for HTTP requests")
