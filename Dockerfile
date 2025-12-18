@@ -1,4 +1,4 @@
-FROM golang:1.21-alpine AS build
+FROM golang:1.24-alpine AS build
 WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
@@ -6,7 +6,7 @@ COPY . .
 ARG VERSION="v1.0.0"
 RUN go build -v -ldflags="-s -w -X 'apatit/internal/version.Version=${VERSION}'" -o /app/apatit ./cmd/apatit
 
-FROM alpine:3.20
+FROM alpine:3.21
 ARG VERSION="latest"
 
 RUN apk add --no-cache ca-certificates
