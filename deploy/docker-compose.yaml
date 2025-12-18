@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  apatit:
+    restart: unless-stopped
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      args:
+        VERSION: "local-build"
+
+    image: apatit:local
+
+    ports:
+      - "8080:8080"
+
+    env_file:
+      - .env
+
+networks:
+  default:
+    name: apatit-net
